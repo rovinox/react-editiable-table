@@ -2,8 +2,8 @@ import { useEffect, useState } from "react"
 import DisplayedTable from "./DisplayedTable"
 import { PropTypes } from "prop-types";
 
-import {parse, getFirstRow} from './util'
-const TableEditor =({html})=> {
+import {parse} from './util'
+const TableEditor =({html,onChange})=> {
 
 const [rows, setRows] = useState([])
 useEffect(()=>{
@@ -16,11 +16,13 @@ useEffect(()=>{
     <div> 
         <DisplayedTable
     rows={rows}
+    onChange={onChange}
         />
      </div>
   )
 }
 TableEditor.propTypes = {
- html:PropTypes.string
+ html:PropTypes.string,
+ onChange:PropTypes.func
     }
 export default  TableEditor

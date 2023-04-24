@@ -1,3 +1,50 @@
+import { renderToStaticMarkup } from "react-dom/server"
+import { ResultHTML } from "./ResultHTML"
+
+export function hasClass(el, className) {
+    if (el.classList) {
+      return el.classList.contains(className)
+    } else {
+      return new RegExp('(^| )' + className + '( |$)', 'gi').test(el.className)
+    }
+  }
+export const onCellInput = (e, b, a, onChange, rows) => {
+    // if (onPasting.current) {
+    //   return
+    // }
+    // const newState = produce(state, data => {
+      if (
+        hasClass(e.target, 'st-table-editable') &&
+        e.target.parentNode.getAttribute('data-cell-id') === `${b}-${a}`
+        ) {
+          rows[a].col[b].value = e.target.innerHTML
+          
+      
+        onChange(getHtml(rows, 'center'))
+        
+      }
+   
+    //})
+    
+    // dispatch({ type: "SET_ROW", row: newState.row })
+    // dispatch({ type: "SET_HISTORY", history: newState.history })
+  }
+
+export function renderHTML(rows, align) {
+    return (<ResultHTML
+      rows={rows}
+      align={align}
+    />)
+  }
+export function getHtml(rows, align) {
+    let html = renderToStaticMarkup(renderHTML(rows, align))
+    html = html.replace(/&quot;/g, '"')
+    html = html.replace(/data-tmp="(.*?)"/g, '$1')
+    html = html.replace(/&lt;/g, '<')
+    html = html.replace(/&gt;/g, '>')
+    console.log('html', html);
+    return html
+  }
 export function getFirstRow(firstRow) {
     console.log('firstRow: ', firstRow);
     const arr = []
@@ -26,7 +73,23 @@ export function parse(html, format = 'html') {
     const trs = doc.querySelectorAll('tr')
         ;[].forEach.call(trs, (tr) => {
             const row = {}
-            const cols = []
+            const cols = [
+              {cellClass
+              : 
+              "",
+              colspan
+              : 
+              1,
+              rowspan
+              : 
+              1,
+              type
+              : 
+              "button",
+              value
+              : 
+              "action Row"}
+            ]
             const cells = tr.querySelectorAll('th,td')
             row.col = cols
                 ;[].forEach.call(cells, (cell) => {
@@ -61,6 +124,7 @@ export function parse(html, format = 'html') {
                     cols.push(col)
                 })
             rows.push(row)
+            console.log('from rows', rows);
         })
     console.log('convert ', rows)
     return rows

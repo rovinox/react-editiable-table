@@ -1,14 +1,53 @@
-import React from 'react'
+import { useState, useEffect, useRef } from "react";
+
 import InnerCell from './InnerCell'
 import { PropTypes } from "prop-types";
-import { getFirstRow } from './util'
 import clsx from "clsx"
-
-const DisplayedTable = ({ rows }) => {
-  const selectedRowIndex = 1
-  const firstRow = rows?.length ? rows[0]?.col : []
+import { onCellInput } from './util'
+const DisplayedTable = ({ rows, onChange }) => {
+const topRow = [
+  {
+      "cellClass": "",
+      "colspan": 1,
+      "rowspan": 1,
+      "type": "button",
+      "value": "action"
+  },
+  {
+      "type": "th",
+      "colspan": 1,
+      "rowspan": 1,
+      "value": "Item",
+      "cellClass": ""
+  },
+  {
+      "type": "th",
+      "colspan": 1,
+      "rowspan": 1,
+      "value": "Month",
+      "cellClass": ""
+  },
+  {
+      "type": "th",
+      "colspan": 1,
+      "rowspan": 1,
+      "value": "Month",
+      "cellClass": ""
+  }
+]
   return (
     <table >
+      <tbody>
+        <tr >
+      {topRow.map((cel, i)=>{
+        return (
+          // eslint-disable-next-line react/jsx-key
+              <td key={`row-${i}`}>action cal</td>
+              
+              )
+            })}
+            </tr>
+</tbody>
       <tbody>
         {rows.map((_item, i) => {
           return (
@@ -42,9 +81,9 @@ const DisplayedTable = ({ rows }) => {
                     // onContextMenu={e => {
                     //     onUpdateTable(e, j, i)
                     // }}
-                    // onInput={e => {
-                    //     onCellInput(e, j, i)
-                    // }}
+                    onInput={e => {
+                      onCellInput(e, j, i, onChange, rows)
+                    }}
                     // onKeyUp={e => {
                     //     onCellKeyup(e, j, i)
                     // }}
@@ -73,7 +112,7 @@ const DisplayedTable = ({ rows }) => {
                     // )}
                     data-cell-id={`${j}-${i}`}
                   >
-                    <InnerCell unique={col.key} align={col.align} value={col.value} />
+                    <InnerCell rows={rows} onChange={onChange} unique={col.key} align={col.align} value={col.value} />
                   </td>
                 )
               })}
@@ -86,6 +125,6 @@ const DisplayedTable = ({ rows }) => {
 }
 DisplayedTable.propTypes = {
   rows: PropTypes.array,
-  firstRow: PropTypes.array,
+  onChange: PropTypes.func,
 }
 export default DisplayedTable
