@@ -1,31 +1,16 @@
 import { useState, useEffect, useRef } from "react";
 import { PropTypes } from "prop-types";
 import clsx from "clsx"
-import {getHtml} from './util'
 
-const InnerCell =({ value, align, onChange, rows })=> {
- const [inputValue, setInputValue] = useState("");
- // let cellInput = useRef(null);
 
-  useEffect(() => {
-    onChange(getHtml(rows, 'center'))
-
-    // console.log('count.current = count.current + 1;: ', cellInput.innerHTML);
-    // console.log('inputValue', inputValue);
-  },[inputValue]);
+  
+    const InnerCell =({ value, align,selectedRowIndex, selectedColumnIndex })=> {
+ 
 
   return (
     <div
-    // ref={(t)=>{
-    //   cellInput = t
-    //   console.log('t',t)
-    // }}
-    // onInput={(e) => {
-    //   console.log('ee',e)
-    //   setInputValue(e.target.innerHTML)
-    // }}
-    className={clsx('st-table-editable', align)}
-    contentEditable
+    className={clsx('st-table-editable', align,selectedColumnIndex == 0 && 'first-column')}
+    contentEditable={selectedRowIndex !== 0 && selectedColumnIndex !==0}
     dangerouslySetInnerHTML={{ __html: value }}
   ></div>
   )
@@ -34,6 +19,8 @@ const InnerCell =({ value, align, onChange, rows })=> {
 }
 InnerCell.propTypes = {
     value:PropTypes.string,
-    align:PropTypes.string
+    align:PropTypes.string,
+    selectedRowIndex:PropTypes.number,
+    selectedColumnIndex:PropTypes.number
      }
 export default  InnerCell

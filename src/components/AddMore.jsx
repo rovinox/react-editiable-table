@@ -1,17 +1,13 @@
-import React from 'react'
+
 
 export default function AddMore() {
   return (
-    <div className="centered">
-  <div className="plus" id="plus">
-    <div className="plus__line plus__line--v">
-      <a href="#" className="plus__link ion-person"></a>
-      <a href="#" className="plus__link ion-images"></a>
-      <a href="#" className="plus__link ion-music-note"></a>
-      <a href="#" className="plus__link ion-location"></a>
-    </div>
-    <div className="plus__line plus__line--h"></div>
-  </div>
+    <div className="st-plus">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+    <defs />
+    <path d="M26 0h12v64H26z" />
+    <path d="M0 38V26h64v12z" />
+  </svg>
 </div>
   )
 }

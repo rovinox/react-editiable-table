@@ -1,5 +1,5 @@
 import { renderToStaticMarkup } from "react-dom/server"
-import { ResultHTML } from "./ResultHTML"
+import ResultHTML  from "./ResultHTML"
 
 export function hasClass(el, className) {
     if (el.classList) {
@@ -46,13 +46,9 @@ export function getHtml(rows, align) {
     return html
   }
 export function getFirstRow(firstRow) {
-    console.log('firstRow: ', firstRow);
     const arr = []
     let i = 0
-    if (firstRow?.length >0) {
-      return arr
-    }
-    const row = firstRow.col
+    const row = firstRow[0].col
     row.forEach(item => {
       const length = item.colspan
       for (let t = 0; t < length; t++) {
@@ -85,7 +81,7 @@ export function parse(html, format = 'html') {
               1,
               type
               : 
-              "button",
+              "th",
               value
               : 
               "action Row"}
@@ -122,10 +118,10 @@ export function parse(html, format = 'html') {
                     }
                     col.cellClass = cellClass
                     cols.push(col)
+                    console.log('from cols', cols);
                 })
             rows.push(row)
             console.log('from rows', rows);
         })
-    console.log('convert ', rows)
     return rows
 }

@@ -31,7 +31,7 @@ function App() {
     <>
       <TableEditor
       html={html}
-      column={true} 
+      enableColumn={true} 
       onChange={html => console.log(html)}
       />
     </>
