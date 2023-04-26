@@ -1,4 +1,5 @@
 import { renderToStaticMarkup } from "react-dom/server"
+import { produce } from 'immer'
 import ResultHTML  from "./ResultHTML"
 
 export function hasClass(el, className) {
@@ -8,23 +9,52 @@ export function hasClass(el, className) {
       return new RegExp('(^| )' + className + '( |$)', 'gi').test(el.className)
     }
   }
+  export function insertRow(rows, rowIndex, newCols) {
+    if (rows[rowIndex]) {
+      rows.splice(rowIndex, 0, { col: newCols })
+      return rows
+    } else if (rows.length === rowIndex) {
+      rows.push({ col: newCols })
+      return rows
+    }
+  }
+   export const rowsActions = ({id, rows, totalColumn, onChange, setRows,rowIndex }) => {
+    const newRow = []
+    // id 1 to add on top and 2 to add on bottom
+    const rowToUpdate = id === 2 ? rowIndex + 1 : rowIndex 
+    for (let i = 0; i < totalColumn; i++) {
+      newRow.push({ type: 'td', colspan: 1, rowspan: 1, value: '' })
+    }
+    const updatedRows = produce(rows, data => {
+      // id 3 is to delete the selected row
+      if(id===3){
+        data.splice(rowIndex, 1)
+        return data
+      }else{
+        return insertRow(data, rowToUpdate, newRow)
+      }
+    })
+    onChange(getHtml(updatedRows, 'center'))
+    setRows(updatedRows)
+    console.log('updatedRows', updatedRows);
+  }
 export const onCellInput = (e, b, a, onChange, rows) => {
     // if (onPasting.current) {
     //   return
     // }
-    // const newState = produce(state, data => {
+    const newState = produce(rows, data => {
       if (
         hasClass(e.target, 'st-table-editable') &&
         e.target.parentNode.getAttribute('data-cell-id') === `${b}-${a}`
         ) {
-          rows[a].col[b].value = e.target.innerHTML
+          data[a].col[b].value = e.target.innerHTML
           
       
-        onChange(getHtml(rows, 'center'))
+          
+        }
         
-      }
-   
-    //})
+      })
+      onChange(getHtml(newState, 'center'))
     
     // dispatch({ type: "SET_ROW", row: newState.row })
     // dispatch({ type: "SET_HISTORY", history: newState.history })

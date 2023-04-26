@@ -7,17 +7,31 @@
 .table-editor-container table, th, td {
 	border: 1px solid black;
 	border-collapse: collapse;
-	height: 100px;
-	width: 100px;
   }
   .first-column{
 	font-weight: 700;
   }
+  .st-top-action-column{
+	background-color:  #979797;
+	/* display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center; */
+  }
+  .table-editor-container table tr td:first-child{
+	background-color: #979797;
+}
   .st-add-more {
 	position: relative;
 	display: flex;
 	align-items: center;
-	margin: 16px;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	
+
+
   }
   
   .st-swatch {
@@ -49,7 +63,7 @@
 	height:20px;
 	width:20px;
 	transition: 0.2s ease-in-out;
-	margin: auto;
+	padding: 6px;
 	cursor:pointer;
 	
   }

@@ -10,7 +10,7 @@ function App() {
     <tr>
       <th>Item</th>
       <th>Month</th>
-      <th>Savings</th>
+      <th>Savings per year</th>
     </tr>
   </thead>
   <tbody>
@@ -20,7 +20,7 @@ function App() {
       <td>$100</td>
     </tr>
     <tr>
-      <td>gas</td>
+      <td>gas per 10000 miles</td>
       <td>February</td>
       <td>$80</td>
     </tr>
