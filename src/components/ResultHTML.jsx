@@ -10,12 +10,13 @@ const xssOption = {
 };
 
 const ResultHTML = ({ rows, align }) => {
-//   const getStyleByAlign = (val) => {
-//     if (align.default === val) {
-//       return "";
-//     }
-//     return align[val];
-//   };
+  console.log('align: ', align);
+  const getStyleByAlign = (val) => {
+    if (align.default === val) {
+      return "";
+    }
+    return align[val];
+  };
   console.log("rows form ResultHTML", rows);
   return (
     <table>
@@ -26,7 +27,7 @@ const ResultHTML = ({ rows, align }) => {
               {item.col.map((col, colIndex) => {
                 if (colIndex !== 0) {
                   const className = clsx(
-                    // getStyleByAlign(col.align),
+                    getStyleByAlign(col.align),
                     col.cellClass
                   );
                   if (col.type === "th") {

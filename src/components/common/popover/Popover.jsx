@@ -4,7 +4,7 @@ import { PropTypes } from "prop-types";
 import useClickOutside from "./useClickOutside";
 import AddMore from "../../AddMore";
 import { Modal } from "../modal/Index";
-import { rowsActions } from "../../util";
+import { rowsActions, columnActions } from "../../util";
 const Popover = ({
   columnIndex,
   mode,
@@ -32,12 +32,9 @@ const Popover = ({
   ];
 
   const currentActionsItems = mode === "row" ? rowsActionsItems : columnActionsItems;
-  const handleDelete = () => {
+  const handleDelete = (id) => {
     setIsModal(false);
-    // id 3 is to delete
-    const id=3
     rowsActions({id, rows, totalColumn, onChange, setRows, rowIndex });
-
   };
 
   const handleAction = (id) => {
@@ -50,12 +47,10 @@ const Popover = ({
       case 3:
         setIsModal(true);
         break;
-      // case 4:
-      //   day = "Thursday";
-      //   break;
-      // case 5:
-      //   day = "Friday";
-      //   break;
+       case 4:
+       case 5:
+       columnActions({id, rows, totalColumn, onChange, setRows, rowIndex });
+         break;
       case 6:
         setIsModal(true);
         break;

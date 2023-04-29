@@ -19,7 +19,6 @@ export const Modal = ({ onClose, show, handleDelete,mode }) => {
   );
 };
 Modal.propTypes = {
-  // rows: PropTypes.array,
   mode: PropTypes.string,
   onClose: PropTypes.func,
   handleDelete: PropTypes.func,

@@ -45,7 +45,7 @@ const DisplayedTable = ({ rows, onChange, topRow, enableColumn,setRows }) => {
                         rowSpan={col.rowspan}
                         onPaste={pasteAsPlainText}
                         onInput={e => {
-                          onCellInput(e, j, i, onChange, rows)
+                          onCellInput({e, j, i, onChange, setRows, rows})
                         }}
                         data-cell-id={`${j}-${i}`}
                       >

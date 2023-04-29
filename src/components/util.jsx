@@ -2,6 +2,13 @@ import { renderToStaticMarkup } from "react-dom/server"
 import { produce } from 'immer'
 import ResultHTML  from "./ResultHTML"
 
+export const align = {
+  default: 'left',
+  left: 'left',
+  center: 'center',
+  right: 'right',
+}
+
 export function hasClass(el, className) {
     if (el.classList) {
       return el.classList.contains(className)
@@ -34,27 +41,48 @@ export function hasClass(el, className) {
         return insertRow(data, rowToUpdate, newRow)
       }
     })
-    onChange(getHtml(updatedRows, 'center'))
+    onChange(getHtml(updatedRows, align))
     setRows(updatedRows)
     console.log('updatedRows', updatedRows);
   }
-export const onCellInput = (e, b, a, onChange, rows) => {
+   export const columnActions = ({id, rows, totalColumn, onChange, setRows,rowIndex }) => {
+    const newRow = []
+    // id 1 to add on top and 2 to add on bottom
+    const rowToUpdate = id === 2 ? rowIndex + 1 : rowIndex 
+    for (let i = 0; i < totalColumn; i++) {
+      newRow.push({ type: 'td', colspan: 1, rowspan: 1, value: '' })
+    }
+    const updatedRows = produce(rows, data => {
+      // id 3 is to delete the selected row
+      if(id===3){
+        data.splice(rowIndex, 1)
+        return data
+      }else{
+        return insertRow(data, rowToUpdate, newRow)
+      }
+    })
+    onChange(getHtml(updatedRows, align))
+    setRows(updatedRows)
+    console.log('updatedRows', updatedRows);
+  }
+export const onCellInput = ({e, j, i, onChange, rows,setRows }) => {
     // if (onPasting.current) {
     //   return
     // }
     const newState = produce(rows, data => {
       if (
         hasClass(e.target, 'st-table-editable') &&
-        e.target.parentNode.getAttribute('data-cell-id') === `${b}-${a}`
+        e.target.parentNode.getAttribute('data-cell-id') === `${j}-${i}`
         ) {
-          data[a].col[b].value = e.target.innerHTML
+          data[i].col[j].value = e.target.innerHTML
           
       
           
         }
         
       })
-      onChange(getHtml(newState, 'center'))
+      setRows(newState)
+      onChange(getHtml(newState, align))
     
     // dispatch({ type: "SET_ROW", row: newState.row })
     // dispatch({ type: "SET_HISTORY", history: newState.history })
